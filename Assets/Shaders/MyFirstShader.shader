@@ -21,7 +21,7 @@ Shader "Unlit/MyFirstShader"
             struct MeshData //was appdata. automatically filled out by unity.
             {
                 float4 vertex : POSITION; // vertex position
-                // float3 normals : NORMAL;
+                float3 normals : NORMAL;
                 // float4 color : COLOR;
                 // float4 tangent : TANGENT;
                 float2 uv0 : TEXCOORD0; // uv channels coordinate
@@ -31,24 +31,22 @@ Shader "Unlit/MyFirstShader"
             struct Interpolators //was v2f
             {
                 float4 vertex : SV_POSITION; // clip space position
-                // float2 uv : TEXCOORD0; // not really a uv channel, just a data
+                float3 normal : TEXCOORD0; // memo: normal map variable. TEXCOORD0 doesn't always maps to uv channel, just a data container. in this case it will contains MeshData's normals.
             };
 
             Interpolators vert (MeshData v)
             {
                 Interpolators o;
                 o.vertex = UnityObjectToClipPos(v.vertex); // local space -> clip space
+                o.normal = v.normals; // just pass through
                 return o;
             }
 
             float4 frag (Interpolators i) : SV_Target
             {
-                // memo: swizzling
-                // float4 myValue;
-                // float2 otherValue = myValue.xy; 
-
-                // output a variable _Color
-                return _Color;
+                // output color from normal directions.
+                // memo : normal is float3, so return a float4
+                return float4(i.normal, 1);
             }
             ENDCG
         }
