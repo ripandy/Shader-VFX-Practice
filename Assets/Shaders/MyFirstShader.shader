@@ -2,7 +2,7 @@ Shader "Unlit/MyFirstShader"
 {
     Properties
     {
-        _Value ("Value", Float) = 1.0
+        _Color ("Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -16,7 +16,7 @@ Shader "Unlit/MyFirstShader"
             
             #include "UnityCG.cginc"
 
-            float _Value;
+            float4 _Color;
             
             struct MeshData //was appdata. automatically filled out by unity.
             {
@@ -47,8 +47,8 @@ Shader "Unlit/MyFirstShader"
                 // float4 myValue;
                 // float2 otherValue = myValue.xy; 
 
-                // output color r,g,b,a
-                return float4(0, 1, 0, 1);
+                // output a variable _Color
+                return _Color;
             }
             ENDCG
         }
