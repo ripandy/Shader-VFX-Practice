@@ -3,6 +3,7 @@ Shader "Unlit/MyFirstShader"
     Properties
     {
         _Color ("Color", Color) = (1,1,1,1)
+        _Scale ("Scale", Float) = 1
     }
     SubShader
     {
@@ -17,6 +18,7 @@ Shader "Unlit/MyFirstShader"
             #include "UnityCG.cginc"
 
             float4 _Color;
+            float _Scale;
             
             struct MeshData
             {
@@ -40,7 +42,7 @@ Shader "Unlit/MyFirstShader"
                 Interpolators o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.normal = UnityObjectToWorldNormal(v.normals); // convert to world normals
-                o.uv = v.uv0; // passthrough
+                o.uv = v.uv0 * _Scale; // multiply by scale
                 return o;
             }
 
