@@ -19,6 +19,8 @@ Shader "Unlit/MyFirstShader"
             
             #include "UnityCG.cginc"
 
+            #define TAU 6.28318530718
+            
             float4 _ColorA;
             float4 _ColorB;
             float _ColorStart;
@@ -57,8 +59,7 @@ Shader "Unlit/MyFirstShader"
 
             float4 frag (Interpolators i) : SV_Target
             {
-                // triangle function
-                float t = abs(frac(i.uv.x * 5) * 2 - 1);
+                float t = cos(i.uv.x * TAU * 2);
 
                 return t;
                 
