@@ -46,7 +46,7 @@ Shader "Unlit/MyFirstShader"
                 Interpolators o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.normal = UnityObjectToWorldNormal(v.normals); // convert to world normals
-                o.uv = v.uv0; // (v.uv0 + _Offset) * _Scale;
+                o.uv = v.uv0; // passthrough
                 return o;
             }
 
@@ -57,7 +57,8 @@ Shader "Unlit/MyFirstShader"
 
             float4 frag (Interpolators i) : SV_Target
             {
-                float t = InverseLerp(_ColorStart, _ColorEnd, i.uv.x);
+                // saturate = clamp01. default functions of shader library. cannot change name.
+                float t = saturate(InverseLerp(_ColorStart, _ColorEnd, i.uv.x));
                 
                 float4 outColor = lerp(_ColorA, _ColorB, t);
                 
