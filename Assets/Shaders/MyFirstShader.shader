@@ -4,8 +4,8 @@ Shader "Unlit/MyFirstShader"
     {
         _ColorA ("Color A", Color) = (1,1,1,1)
         _ColorB ("Color B", Color) = (1,1,1,1)
-//        _Scale ("Scale", Float) = 1
-//        _Offset ("Offset", Float) = 0
+        _ColorStart ("Color Start", Range(0,1)) = 1
+        _ColorEnd ("Color End", Range(0,1)) = 0
     }
     SubShader
     {
@@ -21,8 +21,8 @@ Shader "Unlit/MyFirstShader"
 
             float4 _ColorA;
             float4 _ColorB;
-            // float _Scale;
-            // float _Offset;
+            float _ColorStart;
+            float _ColorEnd;
             
             struct MeshData
             {
@@ -50,11 +50,16 @@ Shader "Unlit/MyFirstShader"
                 return o;
             }
 
+            float InverseLerp(float a, float b, float v)
+            {
+                return (v-a)/(b-a);
+            }
+
             float4 frag (Interpolators i) : SV_Target
             {
-                // lerp (linear interpolation)
-                // blend between two colors based on x coordinates
-                float4 outColor = lerp(_ColorA, _ColorB, i.uv.x);
+                float t = InverseLerp(_ColorStart, _ColorEnd, i.uv.x);
+                
+                float4 outColor = lerp(_ColorA, _ColorB, t);
                 
                 return outColor;
             }
