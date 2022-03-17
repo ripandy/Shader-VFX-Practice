@@ -60,8 +60,9 @@ Shader "Unlit/MyFirstShader"
                 // y is second, w is a second divided by 20.
                 // _Time.xyzw; 
                 
-                float xOffset = cos(i.uv.y * TAU * 8) * 0.01;
-                float t = cos((i.uv.x + xOffset + _Time.y * 0.2) * TAU * 5) * 0.5 + 0.5;
+                float xOffset = cos(i.uv.x * TAU * 8) * 0.01;
+                float t = cos((i.uv.y + xOffset - _Time.y * 0.1) * TAU * 5) * 0.5 + 0.5;
+                t *= 1 - i.uv.y;
 
                 return t;
                 
