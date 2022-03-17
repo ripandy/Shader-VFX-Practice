@@ -57,8 +57,10 @@ Shader "Unlit/MyFirstShader"
 
             float4 frag (Interpolators i) : SV_Target
             {
-                // saturate = clamp01. default functions of shader library. cannot change name.
-                float t = saturate(InverseLerp(_ColorStart, _ColorEnd, i.uv.x));
+                // triangle function
+                float t = abs(frac(i.uv.x * 5) * 2 - 1);
+
+                return t;
                 
                 float4 outColor = lerp(_ColorA, _ColorB, t);
                 
