@@ -32,6 +32,7 @@ Shader "Unlit/MyFirstShader"
             {
                 float4 vertex : SV_POSITION;
                 float3 normal : TEXCOORD0;
+                float2 uv : TEXCOORD1;
             };
 
             Interpolators vert (MeshData v)
@@ -39,12 +40,13 @@ Shader "Unlit/MyFirstShader"
                 Interpolators o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.normal = UnityObjectToWorldNormal(v.normals); // convert to world normals
+                o.uv = v.uv0; // passthrough
                 return o;
             }
 
             float4 frag (Interpolators i) : SV_Target
             {
-                return float4(i.normal, 1);
+                return float4(i.uv, 0, 1);
             }
             ENDCG
         }
