@@ -59,7 +59,7 @@ Shader "Unlit/MyFirstShader"
 
             float4 frag (Interpolators i) : SV_Target
             {
-                float t = cos(i.uv.x * TAU * 2);
+                float t = cos(i.uv.x * TAU * 2) * 0.5 + 0.5;
 
                 return t;
                 
