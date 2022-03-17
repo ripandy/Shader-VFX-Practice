@@ -56,8 +56,12 @@ Shader "Unlit/MyFirstShader"
 
             float4 frag (Interpolators i) : SV_Target
             {
+                // default time variable by Unity as a float4 defining different scales of time.
+                // y is second, w is a second divided by 20.
+                // _Time.xyzw; 
+                
                 float xOffset = cos(i.uv.y * TAU * 8) * 0.01;
-                float t = cos((i.uv.x + xOffset) * TAU * 5) * 0.5 + 0.5;
+                float t = cos((i.uv.x + xOffset + _Time.y * 0.2) * TAU * 5) * 0.5 + 0.5;
 
                 return t;
                 
