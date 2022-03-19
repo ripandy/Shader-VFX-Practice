@@ -9,10 +9,33 @@ Shader "Unlit/MyFirstShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        // SubShader tags
+        Tags
+        {
+            // Memo: Set these to Transparent to allow transparency
+            "RenderType"="Transparent" // tag to inform the render pipeline of what type this is
+            "Queue"="Transparent" // changes the render order
+        }
 
         Pass
         {
+            // Which side to draw (from the monitor perspective).
+            // Front = front side
+            // Off = both side
+            // Back = back side (default, when not defined)
+            Cull Off
+            
+            // Whether to write to depth buffer
+            // Off = will not hide anything behind the object
+            // default will hide anything behind the object
+            ZWrite Off
+            
+            // Whether to read depth buffer
+            // LEqual = draws object in front of this shader (culled, default) -> Less Equal
+            // GEqual = draw only when behind other object (culled) -> Greater Equal
+            // Always = always draw
+            ZTest LEqual
+            
             // blending
             // syntax: Blend <Src> (+) <Dst>
             Blend One One // Additive
@@ -69,7 +92,7 @@ Shader "Unlit/MyFirstShader"
                 float t = cos((i.uv.y + xOffset - _Time.y * 0.1) * TAU * 5) * 0.5 + 0.5;
                 t *= 1 - i.uv.y;
 
-                return t;
+                return t * (abs(i.normal.y) < 0.999); // added hack to remove top/bottom part (where uv are perpendicular)
                 
                 float4 outColor = lerp(_ColorA, _ColorB, t);
                 
