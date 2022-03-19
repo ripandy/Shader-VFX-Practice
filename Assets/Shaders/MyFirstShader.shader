@@ -92,11 +92,11 @@ Shader "Unlit/MyFirstShader"
                 float t = cos((i.uv.y + xOffset - _Time.y * 0.1) * TAU * 5) * 0.5 + 0.5;
                 t *= 1 - i.uv.y;
 
-                return t * (abs(i.normal.y) < 0.999); // added hack to remove top/bottom part (where uv are perpendicular)
-                
-                float4 outColor = lerp(_ColorA, _ColorB, t);
-                
-                return outColor;
+                float topBottomRemover = (abs(i.normal.y) < 0.999); // hack to remove top/bottom part (where uv are perpendicular)
+                float waves = t *  topBottomRemover;
+                float4 gradient = lerp(_ColorA, _ColorB, i.uv.y);
+
+                return gradient * waves;
             }
             ENDCG
         }
