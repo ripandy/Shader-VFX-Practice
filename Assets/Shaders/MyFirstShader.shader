@@ -13,6 +13,11 @@ Shader "Unlit/MyFirstShader"
 
         Pass
         {
+            // blending
+            // syntax: Blend <Src> (+) <Dst>
+            Blend One One // Additive
+//            Blend DstColor Zero // Multiply
+            
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
